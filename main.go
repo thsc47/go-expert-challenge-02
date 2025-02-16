@@ -52,8 +52,7 @@ func main() {
 		fmt.Println(res)
 
 	case <-time.After(time.Second):
-		fmt.Println("TimeOut")
-
+		panic("timeout")
 	}
 
 }
