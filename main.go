@@ -41,8 +41,8 @@ func main() {
 	channelViaCEP := make(chan ViaCEP)
 	channelBrasilApi := make(chan BrasilApi)
 
-	go GetViaCEP(channelViaCEP)
-	go GetBrasilApi(channelBrasilApi)
+	go ViaCEPHandler(channelViaCEP)
+	go BrasilApiHandler(channelBrasilApi)
 
 	select {
 	case res := <-channelViaCEP:
@@ -57,7 +57,7 @@ func main() {
 
 }
 
-func GetViaCEP(chApi chan ViaCEP) {
+func ViaCEPHandler(chApi chan ViaCEP) {
 	var cep ViaCEP
 	err := getCep("https://viacep.com.br/ws/01153000/json/", &cep)
 	if err != nil {
@@ -67,7 +67,7 @@ func GetViaCEP(chApi chan ViaCEP) {
 	chApi <- cep
 }
 
-func GetBrasilApi(chVia chan BrasilApi) {
+func BrasilApiHandler(chVia chan BrasilApi) {
 	var cep BrasilApi
 	err := getCep("https://brasilapi.com.br/api/cep/v1/01153000", &cep)
 	if err != nil {
